@@ -42,21 +42,26 @@ public:
 };
 
 class Guest {
-    std::string guestName;
-    std::string guestPhone;
+    string guestFirstName;
+    string guestLastName;
+    string guestPhone;
     int guestID;
     static int nextGuestID;
 public:
-    // Default constructor assigns a unique guest ID starting at 100
-    Guest(){ 
-        guestID = nextGuestID++;
-    }
+    // Default constructor
+    Guest(){ }
 
     bool SetGuestDetails(){
-        cout << "Enter guest name (or C to cancel): " << endl;
-        cin >> guestName;
+        cout << "Enter guest's first name (or C to cancel): " << endl;
+        cin >> guestFirstName;
         // Checks for exit condition (exits function and returns false if input = C or c)
-        if (guestName == "C" || guestName == "c"){
+        if (guestFirstName == "C" || guestFirstName == "c"){
+            return false;
+        }
+        cout << "Enter guest's last name (or C to cancel): " << endl;
+        cin >> guestLastName;
+        // Checks for exit condition (exits function and returns false if input = C or c)
+        if (guestLastName == "C" || guestLastName == "c"){
             return false;
         }
         cout << "Enter guest Phone number (or C to cancel): " << endl;
@@ -65,20 +70,25 @@ public:
         if (guestPhone == "C" || guestPhone == "c"){
             return false;
         }
+        // Assigns a unique guest ID starting at 100
+        guestID = nextGuestID++;
         return true;
     }
     int GetGuestID(){
         return guestID;
     }
-    string GetGuestName(){
-        return guestName;
+    string GetGuestFirstName(){
+        return guestFirstName;
+    }
+    string GetGuestLastName(){
+        return guestLastName;
     }
     string GetGuestPhone(){
         return guestPhone;
     }
     void DisplayGuestDetails(){
         cout << "Guest ID: "  << guestID << endl <<
-            "Guest Name: " << guestName << endl <<
+            "Guest Name: " << guestFirstName << " " << guestLastName << endl <<
             "Guest phone number: " << guestPhone << endl;
     }
 };
@@ -88,15 +98,14 @@ int Guest::nextGuestID = 100;
 class Booking {
 public:
     int bookingID;
+    static int nextBookingID;
     Room* bookedRoom; // Pointer to room object associated with this booking
     Guest* bookedGuest; // Pointer to guest object associated with this booking
-    static int nextBookingID;
+    
     // Default constructor initializes pointers to nullptr
-    // and assigns a unique booking ID starting at 1
     Booking() {
         bookedRoom = nullptr;
         bookedGuest = nullptr;
-        bookingID = nextBookingID++;
     }
     // Parameterized constructor currently unused
     // Booking(Room* r, Guest* g){
@@ -185,6 +194,8 @@ public:
             cout << "Room not found or unavailable" << endl;
             return false;
         }
+        // Assigns a unique booking ID starting at 1
+        bookingID = nextBookingID++;
         // returns true roomFound and guestFound flags are true
         return guestFound && roomFound;
     }
@@ -340,7 +351,7 @@ int main() {
     hotel1.AddRoom(r8);
     Room r9(201, 199.99);
     hotel1.AddRoom(r9);
-    Room r10(203, 199.99);
+    Room r10(202, 199.99);
     hotel1.AddRoom(r10);
 
     // Starts HotelManager 
